@@ -1,0 +1,77 @@
+#include <zephyr/dt-bindings/usb/audio.h>
+/ {
+	chosen {
+		zephyr,console = &cdc_acm_uart0;
+		zephyr,shell-uart = &cdc_acm_uart0;
+	};
+};
+
+&zephyr_udc0 {
+	cdc_acm_uart0: cdc_acm_uart0 {
+		compatible = "zephyr,cdc-acm-uart";
+		label = "Mic Array Shell";
+		tx-fifo-size = <4096>;
+	};
+	cdc_telemetry: cdc_acm_uart1 {
+		compatible = "zephyr,cdc-acm-uart";
+		label = "Mic Array Telemetry";
+		tx-fifo-size = <1024>;
+		rx-fifo-size = <256>;
+	};
+};
+
+mic_pio: &pio0 { status = "okay"; };
+/* RP2354A: GP6=SCLK, GP7-GP10=DATA1-4, GP11-GP13=DIN/BCLK/LRC (U7). */
+&uart0 { status = "disabled"; };
+&i2c0 { status = "disabled"; };
+&i2c1 { status = "disabled"; };
+&adc { status = "disabled"; };
+
+/ {
+ mic_audio: microphone_audio {
+  compatible = "zephyr,uac2";
+  full-speed;
+  audio-function = <AUDIO_FUNCTION_MICROPHONE>;
+  mic_clock: clock {
+   compatible = "zephyr,uac2-clock-source";
+   clock-type = "internal-fixed";
+   frequency-control = "read-only";
+   sampling-frequencies = <48000>;
+  };
+  mic_input: microphones {
+   compatible = "zephyr,uac2-input-terminal";
+   clock-source = <&mic_clock>;
+   terminal-type = <INPUT_TERMINAL_MICROPHONE_ARRAY>;
+   /* USB quad channel slots; not physical array coordinates. */
+   front-left;
+   front-right;
+   back-left;
+   back-right;
+  };
+  mic_usb: usb_capture {
+   compatible = "zephyr,uac2-output-terminal";
+   data-source = <&mic_input>;
+   clock-source = <&mic_clock>;
+   terminal-type = <USB_TERMINAL_STREAMING>;
+  };
+  mic_as: capture_stream {
+   compatible = "zephyr,uac2-audio-streaming";
+   linked-terminal = <&mic_usb>;
+   subslot-size = <2>;
+   bit-resolution = <16>;
+  };
+ };
+};
+
+/ { chosen { zephyr,code-partition = &app_partition; }; };
+/* RP2354A has 2 MiB in-package flash; reserve the final 8 KiB for settings. */
+&flash0 {
+ reg = <0x10000000 0x200000>;
+ ranges = <0x0 0x10000000 0x200000>;
+ partitions {
+  compatible = "fixed-partitions";
+  #address-cells = <1>; #size-cells = <1>;
+  app_partition: partition@0 { label = "firmware"; reg = <0x0 0x1fe000>; };
+  audio_settings_partition: partition@1fe000 { label = "audio-settings"; reg = <0x1fe000 0x2000>; };
+ };
+};

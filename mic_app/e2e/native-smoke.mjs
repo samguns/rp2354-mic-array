@@ -1,0 +1,45 @@
+// Connect to a test-launched WebView2 instance; no debugging port in normal use.
+import { chromium, expect } from '@playwright/test';
+import fs from 'node:fs/promises';
+const output=process.env.MIC_APP_SMOKE_OUTPUT??'../build-tests/mic-app';
+const browser=await chromium.connectOverCDP('http://127.0.0.1:9222');
+const pages=browser.contexts().flatMap(c=>c.pages());
+const page=pages.find(p=>!p.url().startsWith('devtools:'));
+if(!page)throw new Error('mic_app WebView not found');
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.waitForSelector('.topbar');
+await expect(page.getByRole('combobox',{name:'Serial port'}).locator('option:checked')).toContainText('Telemetry');
+await page.getByRole('button',{name:'Connect board',exact:true}).click();
+await expect(page.locator('.mode-pill')).toHaveText('DEVICE',{timeout:10000});
+await expect(page.locator('footer')).toContainText('Result #',{timeout:10000});
+await page.getByLabel('Beam mode',{exact:true}).selectOption('2');
+await page.getByLabel('Beam azimuth',{exact:true}).fill('135');
+await page.getByLabel('Beam elevation',{exact:true}).fill('20');
+await page.getByRole('button',{name:'Apply beam',exact:true}).click();
+await expect(page.getByTestId('beam-applied')).toContainText('135.0',{timeout:10000});
+await page.getByRole('button',{name:'Relearn noise',exact:true}).click();
+await expect(page.locator('.beam-controls')).toContainText('Learned',{timeout:10000});
+await page.getByRole('button',{name:'Disable estimation',exact:true}).click();
+await expect(page.locator('.status')).toHaveText('Estimation off',{timeout:10000});
+await page.getByRole('button',{name:'Enable estimation',exact:true}).click();
+await expect(page.getByRole('button',{name:'Start trial'})).toBeEnabled({timeout:10000});
+await page.getByRole('button',{name:'Start trial'}).click();
+await page.waitForTimeout(2000);
+await page.getByRole('button',{name:/Finish trial/}).click();
+await expect(page.locator('.trial-stats')).toContainText('Acceptance');
+await page.screenshot({path:`${output}/native-device.png`,fullPage:true});
+await page.getByRole('button',{name:'Disconnect',exact:true}).click();
+await expect(page.locator('.status')).toHaveText('Disconnected');
+const shell=await page.getByRole('combobox',{name:'Serial port'}).locator('option').evaluateAll(options=>options.find(o=>o.textContent.includes('Diagnostics shell'))?.value);
+if(shell){
+  await page.getByRole('combobox',{name:'Serial port'}).selectOption(shell);
+  await page.getByRole('button',{name:'Connect board',exact:true}).click();
+  await page.getByRole('button',{name:'Simulation',exact:true}).click();
+  await page.waitForTimeout(2700);
+  await expect(page.locator('.mode-pill')).toHaveText('SIMULATION');
+  await page.getByRole('button',{name:'Stop simulation'}).click();
+}
+await fs.writeFile(`${output}/native-smoke.json`,JSON.stringify({pass:errors.length===0,errors,url:page.url()},null,2));
+if(errors.length)throw new Error(errors.join('\n'));
+console.log('Native Tauri smoke passed: connect, telemetry, disable/enable, trial, disconnect.');
+await browser.close();

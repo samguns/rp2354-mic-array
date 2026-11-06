@@ -1,0 +1,21 @@
+/build/
+/build-*/
+/build-tests/
+/build-sdk-benchmark/
+
+__pycache__/
+*.py[cod]
+*.wav
+*.uf2
+*.exe
+
+/sdk-benchmark/deps/
+/zephyrproject/
+
+# Vendor documents. They are not covered by this repository's license.
+/U6.pdf
+/speaker.pdf
+
+.DS_Store
+Thumbs.db
+*.user

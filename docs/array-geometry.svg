@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="800" viewBox="0 0 820 800">
+<rect width="820" height="800" fill="#fafafa"/>
+<style>text{font-family:Arial,sans-serif;fill:#182838} .small{font-size:15px} .label{font-size:20px;font-weight:bold}</style>
+<text x="410" y="35" text-anchor="middle" class="label">Pico 2 microphone array: exposed-port underside view</text>
+<text x="410" y="60" text-anchor="middle" class="small">CAD sound-port centers | nominal millimeters | USB-C upper right; same top edge up</text>
+<rect x="90" y="114" width="640" height="592" rx="28" fill="#eff5ef" stroke="#566" stroke-width="2"/>
+<path d="M410 165V655 M165 410H655" stroke="#9ab" stroke-dasharray="7 5"/>
+<circle cx="410" cy="410" r="200" fill="none" stroke="#aab" stroke-dasharray="5 5"/>
+<path d="M410 410H490 M410 410V330" stroke="#456" stroke-width="2"/>
+<text x="495" y="402" class="small">+X</text><text x="420" y="325" class="small">+Y</text>
+<text x="418" y="435" class="small">(0,0)</text>
+<rect x="687" y="205" width="68" height="45" fill="#ccd" stroke="#566"/><text x="600" y="234" class="small">USB-C</text>
+<rect x="677" y="525" width="78" height="85" fill="#ddc" stroke="#566"/><text x="535" y="570" class="small">MAX98357A</text>
+<circle cx="410" cy="210" r="9" fill="#126a90"/><text x="410" y="185" text-anchor="middle" class="label">U1 / CH1</text><text x="410" y="244" text-anchor="middle" class="small">GP7 | (0, 25) mm</text>
+<circle cx="610" cy="410" r="9" fill="#126a90"/><text x="610" y="385" text-anchor="middle" class="label">U4 / CH4</text><text x="610" y="444" text-anchor="middle" class="small">GP10 | (25, 0) mm</text>
+<circle cx="410" cy="610" r="9" fill="#126a90"/><text x="410" y="585" text-anchor="middle" class="label">U3 / CH3</text><text x="410" y="644" text-anchor="middle" class="small">GP9 | (0, -25) mm</text>
+<circle cx="210" cy="410" r="9" fill="#126a90"/><text x="210" y="385" text-anchor="middle" class="label">U2 / CH2</text><text x="210" y="444" text-anchor="middle" class="small">GP8 | (-25, 0) mm</text>
+<text x="410" y="743" text-anchor="middle" class="small">Opposite ports: 50.00 mm | Adjacent ports: 35.36 mm</text>
+<text x="410" y="770" text-anchor="middle" class="small">Board nominally 80 x 74 mm. Sound-port openings face the viewer.</text>
+</svg>

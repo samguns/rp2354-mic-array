@@ -1,0 +1,23 @@
+diff --git a/drivers/usb/udc/udc_rpi_pico.c b/drivers/usb/udc/udc_rpi_pico.c
+index 276a75d9528..6025b306fb3 100644
+--- a/drivers/usb/udc/udc_rpi_pico.c
++++ b/drivers/usb/udc/udc_rpi_pico.c
+@@ -448,7 +448,8 @@ static ALWAYS_INLINE void rpi_pico_thread_handler(void *const arg)
+ 			if (!udc_ep_is_busy(ep_cfg)) {
+ 				rpi_pico_handle_xfer_next(dev, ep_cfg);
+ 			} else {
+-				LOG_ERR("Endpoint 0x%02x busy", ep);
++				/* The active transfer's completion starts the queued buffer. */
++				LOG_DBG("Endpoint 0x%02x busy; transfer queued", ep);
+ 			}
+ 		}
+ 	}
+@@ -586,6 +587,8 @@ static void rpi_pico_isr_handler(const struct device *dev)
+ 
+ 	if (status & USB_INTS_DEV_SOF_BITS) {
+ 		handled |= USB_INTS_DEV_SOF_BITS;
++		/* Reading SOF_RD acknowledges DEV_SOF and prevents repeated interrupts. */
++		(void)sys_read32((mm_reg_t)&base->sof_rd);
+ 		udc_submit_sof_event(dev);
+ 	}
+ 

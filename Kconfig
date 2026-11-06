@@ -1,0 +1,5 @@
+mainmenu "RP2354A microphone array"
+source "Kconfig.zephyr"
+
+config PICOSDK_USE_DMA
+	default y

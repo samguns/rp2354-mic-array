@@ -1,0 +1,219 @@
+{
+  "source": "ProDoc_pico2-mic-array_2026-10-13/ProDoc_pico2-mic-array_2026-10-13.epru",
+  "source_sha256": "fba4ec8b288b6359bbd73e4cd502823a9a0808a350ef21cbdaa80e5eaae63b88",
+  "pcb_uuid": "ef50b906066e2d1c",
+  "units": "mm",
+  "source_unit_mm": 0.0254,
+  "coordinate_frame": "Exposed-port underside view, same top edge up; USB-C upper right, MAX98357A lower right; origin PCB (0,0), +X right, +Y up, +Z toward viewer; underside X = -CAD X, Y = CAD Y; common port plane Z=0",
+  "status": "CAD-derived nominal geometry; assembled hole centers not measured; acoustic mapping validation recorded separately in docs/channel-validation.md",
+  "microphones": [
+    {
+      "designator": "U1",
+      "channel": 1,
+      "gpio": 7,
+      "net": "DATA1",
+      "pico_header_pin": 10,
+      "component_origin_mil": [
+        0,
+        952.3622
+      ],
+      "rotation_degrees": 180,
+      "footprint_id": "ef50b906066e2d1c_5c1a65007e37664a",
+      "port_local_mil": [
+        -0.005,
+        -31.89
+      ],
+      "component_side_port_mm": [
+        0.000127,
+        25.0000059,
+        0.0
+      ],
+      "port_mm": [
+        -0.000127,
+        25.0000059,
+        0.0
+      ],
+      "nominal_port_mm": [
+        0,
+        25,
+        0
+      ],
+      "evidence_lines": {
+        "component": 2555,
+        "port": 1859,
+        "data_net": 2547,
+        "routed_pad": 3074
+      }
+    },
+    {
+      "designator": "U2",
+      "channel": 2,
+      "gpio": 8,
+      "net": "DATA2",
+      "pico_header_pin": 11,
+      "component_origin_mil": [
+        952.3694,
+        0.0004
+      ],
+      "rotation_degrees": 90,
+      "footprint_id": "eb43e9225d525a11",
+      "port_local_mil": [
+        -0.005,
+        -31.89
+      ],
+      "component_side_port_mm": [
+        25.0001888,
+        -0.0001168,
+        0.0
+      ],
+      "port_mm": [
+        -25.0001888,
+        -0.0001168,
+        0.0
+      ],
+      "nominal_port_mm": [
+        -25,
+        0,
+        0
+      ],
+      "evidence_lines": {
+        "component": 2567,
+        "port": 1629,
+        "data_net": 2559,
+        "routed_pad": 3089
+      }
+    },
+    {
+      "designator": "U3",
+      "channel": 3,
+      "gpio": 9,
+      "net": "DATA3",
+      "pico_header_pin": 12,
+      "component_origin_mil": [
+        -0.019,
+        -952.3537
+      ],
+      "rotation_degrees": 0,
+      "footprint_id": "eb43e9225d525a11",
+      "port_local_mil": [
+        -0.005,
+        -31.89
+      ],
+      "component_side_port_mm": [
+        -0.0006096,
+        -24.99979,
+        0.0
+      ],
+      "port_mm": [
+        0.0006096,
+        -24.99979,
+        0.0
+      ],
+      "nominal_port_mm": [
+        0,
+        -25,
+        0
+      ],
+      "evidence_lines": {
+        "component": 2579,
+        "port": 1629,
+        "data_net": 2571,
+        "routed_pad": 3042
+      }
+    },
+    {
+      "designator": "U4",
+      "channel": 4,
+      "gpio": 10,
+      "net": "DATA4",
+      "pico_header_pin": 14,
+      "component_origin_mil": [
+        -1016.1417,
+        0
+      ],
+      "rotation_degrees": 90,
+      "footprint_id": "eb43e9225d525a11",
+      "port_local_mil": [
+        -0.005,
+        -31.89
+      ],
+      "component_side_port_mm": [
+        -24.9999932,
+        -0.000127,
+        0.0
+      ],
+      "port_mm": [
+        24.9999932,
+        -0.000127,
+        0.0
+      ],
+      "nominal_port_mm": [
+        25,
+        0,
+        0
+      ],
+      "evidence_lines": {
+        "component": 2591,
+        "port": 1629,
+        "data_net": 2583,
+        "routed_pad": 3107
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "channels": [
+        1,
+        2
+      ],
+      "distance_mm": 35.355469520554735,
+      "max_delay_us_at_343_m_s": 103.07717061386221,
+      "max_delay_samples_at_16k": 1.6492347298217953
+    },
+    {
+      "channels": [
+        1,
+        3
+      ],
+      "distance_mm": 49.99979590542582,
+      "max_delay_us_at_343_m_s": 145.7719997242735,
+      "max_delay_samples_at_16k": 2.3323519955883762
+    },
+    {
+      "channels": [
+        1,
+        4
+      ],
+      "distance_mm": 35.35551802805483,
+      "max_delay_us_at_343_m_s": 103.07731203514528,
+      "max_delay_samples_at_16k": 1.6492369925623245
+    },
+    {
+      "channels": [
+        2,
+        3
+      ],
+      "distance_mm": 35.355672539837805,
+      "max_delay_us_at_343_m_s": 103.07776250681576,
+      "max_delay_samples_at_16k": 1.6492442001090521
+    },
+    {
+      "channels": [
+        2,
+        4
+      ],
+      "distance_mm": 50.00018200000103,
+      "max_delay_us_at_343_m_s": 145.7731253644345,
+      "max_delay_samples_at_16k": 2.3323700058309518
+    },
+    {
+      "channels": [
+        3,
+        4
+      ],
+      "distance_mm": 35.3546649042742,
+      "max_delay_us_at_343_m_s": 103.07482479380234,
+      "max_delay_samples_at_16k": 1.6491971967008374
+    }
+  ]
+}
