@@ -11,7 +11,7 @@ In the exposed-port view (USB-C upper right), azimuth 0 degrees is right,
 90 points normal to its face. Elevation is assumed, not measured. Broadside
 selects that normal. A planar array cannot distinguish the mirrored rear source.
 
-Audio processing runs on Pico 2: four synchronized 48 kHz raw microphones feed
+Audio processing runs on the RP2354A: four synchronized 48 kHz raw microphones feed
 both the independent GCC-PHAT estimator and the delay-and-sum beamformer.
 The beam filter runs on core 1, pipelined with CIC conversion and direction
 estimation; core 0 runs FIR conversion, noise suppression and USB handling.

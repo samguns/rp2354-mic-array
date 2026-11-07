@@ -434,7 +434,7 @@ SHELL_STATIC_SUBCMD_SET_CREATE(mic_commands,
 	SHELL_CMD(dump, NULL, "Export completed recording as framed PCM16 hex", cmd_dump),
 	SHELL_CMD(raw, NULL, "Measure GPIO clock and export raw PDM plus matching PCM", cmd_raw),
 	SHELL_SUBCMD_SET_END);
-SHELL_CMD_REGISTER(mic, &mic_commands, "Pico 2 microphone array", NULL);
+SHELL_CMD_REGISTER(mic, &mic_commands, "RP2354A microphone array", NULL);
 
 __ramfunc __attribute__((optimize("O3"))) int main(void)
 {

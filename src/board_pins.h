@@ -1,7 +1,6 @@
 #ifndef MIC_ARRAY_BOARD_PINS_H
 #define MIC_ARRAY_BOARD_PINS_H
-/* SCH_rp2350-mic-array_1-P1_2026-10-26.png, U5 RP2354A QFN-60.
- * GPIO numbers are not QFN package pin numbers or Pico header positions. */
+/* RP2354A board, U5 RP2354A QFN-60. GPIO numbers are not package pin numbers. */
 #define MIC_CLOCK_PIN 6u       /* SCLK: U5 pin 9 */
 #define MIC_DATA1_PIN 7u       /* DATA1 / U1: U5 pin 10 */
 #define MIC_DATA2_PIN 8u       /* DATA2 / U2: U5 pin 12 */

@@ -1,6 +1,6 @@
 ## Overview
 
-This project is an open-source four-channel digital microphone array built on the Raspberry Pi RP2354A and Zephyr RTOS. The board carries four synchronized Infineon IM72D128V01 PDM microphones, with sound ports on a planar cross of 25 mm radius. Using the RP2350 dual Cortex-M33 cores and programmable I/O (PIO), it performs 3.072 MHz parallel PDM sampling, exact CIC4/FIR decimation, 48 kHz on-chip audio DSP, onboard direction-of-arrival (DOA) estimation, and beamforming. It enumerates as a standard USB composite device: a driverless four-channel UAC2 stream, an interactive diagnostics shell, and a dedicated telemetry and control interface, with a cross-platform desktop viewer.
+This project is an open-source four-channel digital microphone array built on the Raspberry Pi RP2354A and Zephyr RTOS. The board carries four synchronized Infineon IM72D128V01 PDM microphones, with sound ports on a planar cross of 25 mm radius (hardware project available on [EasyEDA Pro](https://pro.lceda.cn/editor#id=b3406129141d4149bf3fd8f035bb6d27)). Using the RP2350 dual Cortex-M33 cores and programmable I/O (PIO), it performs 3.072 MHz parallel PDM sampling, exact CIC4/FIR decimation, 48 kHz on-chip audio DSP, onboard direction-of-arrival (DOA) estimation, and beamforming. It enumerates as a standard USB composite device: a driverless four-channel UAC2 stream, an interactive diagnostics shell, and a dedicated telemetry and control interface, with a cross-platform desktop viewer.
 
 ## Features
 

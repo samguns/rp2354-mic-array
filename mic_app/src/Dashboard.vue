@@ -199,7 +199,7 @@ onUnmounted(()=>{clearTimers();clearInterval(watchdog);unlisten.forEach(f=>f());
 <template>
   <main>
     <header class="topbar">
-      <div class="brand"><span class="brand-icon">◉</span><div><h1>mic_app</h1><p>Direction lab <span>/ Pico 2 · 4 microphones</span></p></div></div>
+      <div class="brand"><span class="brand-icon">◉</span><div><h1>mic_app</h1><p>Direction lab <span>/ RP2354A · 4 microphones</span></p></div></div>
       <div class="connection"><select v-model="port" aria-label="Serial port" :disabled="mode==='device'||connecting"><option v-if="!port" value="" disabled>Select telemetry port</option><option v-else-if="!ports.some(p=>p.name===port)" :value="port">{{ port }}</option><option v-for="p in ports" :key="p.name" :value="p.name">{{ p.label }}</option></select><button @click="refreshPorts" title="Refresh serial ports">↻</button><button class="primary" :disabled="connecting||(!port&&mode!=='device')" @click="mode==='device'?detach():connectDevice()">{{ connecting?'Connecting…':mode==='device'?'Disconnect':'Connect board' }}</button><button :class="{selected:mode==='simulation'}" @click="startSimulation">Simulation</button></div>
     </header>
     <div class="subbar"><span class="mode-pill" :class="mode">{{ mode.toUpperCase() }}</span><span>48 kHz · GCC-PHAT · azimuth only</span><label><input type="checkbox" v-model="reconnect"> Auto reconnect</label><button v-if="mode!=='disconnected'&&mode!=='device'" @click="detach">Stop {{ mode }}</button><button v-if="mode==='device'" @click="toggleEstimation">{{ latest?.enabled===1?'Disable':'Enable' }} estimation</button></div>

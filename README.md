@@ -4,7 +4,8 @@
 
 Four synchronized IM72D128V01 PDM microphones on the custom RP2354A board.
 Zephyr, its modules, and the SDK all live in `zephyrproject/` inside this
-repository. The schematic is `SCH_rp2350-mic-array_1-P1_2026-10-26.png`. The
+repository. The schematic and open-source hardware project are hosted on
+[EasyEDA Pro](https://pro.lceda.cn/editor#id=b3406129141d4149bf3fd8f035bb6d27). The
 build target is `rpi_pico2/rp2350a/m33`; `app.overlay` sets this chip's 2 MiB
 flash, pin wiring, and USB functions. See [RP2354A board](docs/rp2354a-board.md).
 
@@ -144,7 +145,7 @@ python tools/extract_geometry.py
 
 ## Wiring
 
-GPIO numbers are not QFN package pins. Source: `src/board_pins.h`.
+GPIO numbers are not QFN package pins. Source: `src/board_pins.h` and the [EasyEDA Pro hardware project](https://pro.lceda.cn/editor#id=b3406129141d4149bf3fd8f035bb6d27).
 
 | Net | GPIO | U5 QFN-60 pin | Goes to |
 |---|---|---|---|

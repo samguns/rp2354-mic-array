@@ -2,7 +2,7 @@
 
 English: [README.md](README.md)
 
-定制 RP2354A 板上有四只同步的 IM72D128V01 PDM 麦克风。Zephyr、它的模块和 SDK 都在本仓库的 `zephyrproject/` 里。原理图为 `SCH_rp2350-mic-array_1-P1_2026-10-26.png`。构建目标是 `rpi_pico2/rp2350a/m33`；`app.overlay` 设置这颗芯片的 2 MiB Flash、引脚连接和 USB 功能。参见 [RP2354A 板](docs/rp2354a-board.md)。
+定制 RP2354A 板上有四只同步的 IM72D128V01 PDM 麦克风。Zephyr、它的模块和 SDK 都在本仓库的 `zephyrproject/` 里。开源硬件与原理图工程见 [嘉立创EDA 专业版](https://pro.lceda.cn/editor#id=b3406129141d4149bf3fd8f035bb6d27)。构建目标是 `rpi_pico2/rp2350a/m33`；`app.overlay` 设置这颗芯片的 2 MiB Flash、引脚连接和 USB 功能。参见 [RP2354A 板](docs/rp2354a-board.md)。
 
 ## USB
 
@@ -76,7 +76,7 @@ python tools/extract_geometry.py
 
 ## 接线
 
-GPIO 编号不是 QFN 封装引脚号。来源：`src/board_pins.h`。
+GPIO 编号不是 QFN 封装引脚号。来源：`src/board_pins.h` 与 [嘉立创EDA 专业版开源硬件工程](https://pro.lceda.cn/editor#id=b3406129141d4149bf3fd8f035bb6d27)。
 
 | 网络 | GPIO | U5 QFN-60 引脚 | 去向 |
 |---|---|---|---|

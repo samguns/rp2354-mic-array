@@ -84,7 +84,7 @@ The UAC2 descriptor advertises only 48 kHz, four channels, 16-bit samples.
 Full-speed payload is nominally 384 bytes/ms, with 47/48/49 complete-frame
 packets and a maximum software packet allocation of 392 bytes. The existing
 2048-frame reservoir primes at 768 frames; no channel is independently resampled.
-PID remains 0005 and the product name remains Pico 2 Mic Array UAC2.
+The USB product string is `Pico 2 Mic Array UAC2`.
 
 ```powershell
 python tools/uac_wasapi.py build-tests/raw-48k.wav --seconds 60

@@ -105,7 +105,7 @@ development is not a calibration for your next recording: relearn it in the
 actual noise environment. To restore four independent channels, close the
 recorder and run `nr config off` and `bf config off`.
 
-Validation on the attached Pico 2:
+Validation on the attached board:
 
 - 60 seconds of UAC2 with broadside, 50 Hz notch, and learned suppression:
   2,879,520 consecutive pattern frames after 480 startup zeros; zero sequence
@@ -129,7 +129,7 @@ performance.
 ## Historical 16 kHz implementation
 
 
-The Pico 2 can now select raw four-channel UAC capture or a processed mono
+The firmware selects raw four-channel UAC capture or a processed mono
 signal carried identically in all four existing UAC slots. This keeps the USB
 identity and tested Windows format unchanged; it is not a separate one-channel
 USB endpoint. Mono uses a selected microphone, not beamforming or an average

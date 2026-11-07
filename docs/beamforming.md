@@ -18,7 +18,7 @@ bf config broadside
 bf stats
 ```
 
-Record from Pico 2 Mic Array UAC2 in Audacity. The four USB slots carry the
+Record from the UAC2 microphone in Audacity. The four USB slots carry the
 same beamformed mono signal, so ordinary stereo recording is sufficient.
 For comparison with a single microphone, close capture and use:
 

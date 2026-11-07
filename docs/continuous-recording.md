@@ -55,7 +55,7 @@ mismatch. Channel mapping and acoustic delay validation precede direction findin
 
 ## Hardware validation, 2026-10-14
 
-Built and flashed on the attached Pico 2 via COM13. Firmware uses 124760
+Built and flashed on the attached board via COM13. Firmware uses 124760
 bytes of flash and 479520 bytes of RAM (90.05%). CDC uses a dedicated
 1024-byte USB buffer pool and 4096-byte shell/CDC transmit queues to batch
 transfers; the original small-transfer configuration overflowed the stream

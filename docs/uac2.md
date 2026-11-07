@@ -10,8 +10,8 @@ nominal 16 kHz. Acquisition remains a shared 1.536 MHz PDM clock and CIC3
 was changed. Channels remain CH1/U1 top, CH2/U2 left, CH3/U3 bottom, CH4/U4
 right in the exposed-port view.
 
-The prototype composite USB identity is VID 2FE3, PID 0005, product
-"Pico 2 Mic Array UAC2". Windows assigned CDC COM14 on this machine. Use the
+The composite USB identity in this note is VID 2FE3, PID 0005, product
+`Pico 2 Mic Array UAC2`. Windows assigned CDC COM14 on this machine. Use the
 current port number for the shell, flash.py, and CDC recording tools. flash.py
 now follows the device serial identity across COM-number changes. The prior
 CDC-only firmware is saved as build-tests/pre-uac2.uf2 for recovery.

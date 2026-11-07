@@ -1,8 +1,6 @@
-# RP2354A board, 2026-10-26 schematic
+# RP2354A board hardware and wiring
 
-Source: SCH_rp2350-mic-array_1-P1_2026-10-26.png. GPIO assignments match the
-previous Pico 2 firmware; MCU package pin numbers differ from Pico header
-positions. All pins below are GPIO numbers unless explicitly marked package.
+Source: [EasyEDA Pro project](https://pro.lceda.cn/editor#id=b3406129141d4149bf3fd8f035bb6d27). Pins below are GPIO numbers unless marked as U5 QFN-60 package pins.
 
 | Net | GPIO | U5 QFN-60 package pin | Destination |
 |---|---|---|---|
@@ -16,29 +14,24 @@ positions. All pins below are GPIO numbers unless explicitly marked package.
 | LRC | 13 | 17 | U7 pin 5 |
 
 U7 pins 1/2 supply VBUS/GND to the external amplifier. U6 is the ME6217C33M5G
-3.3 V regulator, not the previous design's speaker module. Microphone SELECT
-pins remain grounded, so existing low-clock sampling and channel order apply.
-USB_DM/DP use dedicated package pins 51/52. The crystal remains 12 MHz.
+3.3 V regulator. Microphone SELECT pins are grounded, so capture samples in
+the low half of CLOCK. Channel order is DATA1, DATA2, DATA3, DATA4.
+USB D−/D+ use package pins 51/52. The crystal is 12 MHz.
 
 src/board_pins.h is the shared pin map for PDM acquisition, raw/clock probes,
 and optional I2S output/probe. Compile-time checks enforce contiguous inputs
 and consecutive speaker pins required by these PIO programs. Speaker diagnostics
 remain deferred by AUDIO_SPEAKER_DIAGNOSTICS=0.
 
-RP2354A has 2 MiB in-package flash. app.overlay overrides the Pico 2 base
-board's 4 MiB declaration. Firmware occupies 0x000000-0x1FDFFF and the two
-settings sectors occupy 0x1FE000-0x1FFFFF. The flash driver and linker therefore
-use the actual capacity. Saved settings from the old prototype's 0x3FE000
-location are not migrated; configure and save on the new board.
+RP2354A has 2 MiB in-package flash. `app.overlay` sets that size and reserves
+the final 8 KiB for settings. Firmware occupies `0x000000–0x1FDFFF`. The two
+settings sectors occupy `0x1FE000–0x1FFFFF`.
 
-The schematic does not establish microphone sound-port coordinates or board
-view orientation. Existing nominal beamforming/DOA geometry and mic_app's
-prototype orientation illustration still need confirmation against the new PCB
-layout; they must not be inferred from schematic symbol placement.
+Beamforming and direction estimation use the 25 mm cross in
+[array geometry](array-geometry.md). Schematic symbol placement is not that
+coordinate frame.
 
-Build target remains rpi_pico2/rp2350a/m33 for the compatible RP235x core and
-12 MHz / 150 MHz clock setup. This is an application-specific board override,
-not a separate upstream Zephyr board definition. Firmware output is
-build/zephyr/zephyr.uf2. No automatic flashing is performed for this revision.
+The Zephyr build target is `rpi_pico2/rp2350a/m33`, with this board's 12 MHz
+crystal and 150 MHz system clock. Firmware output is `build/zephyr/zephyr.uf2`.
 
 RP2354A flash capacity and pin compatibility: [Raspberry Pi documentation](https://www.raspberrypi.com/documentation/microcontrollers/microcontroller-chips.html).

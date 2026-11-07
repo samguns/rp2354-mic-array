@@ -20,7 +20,7 @@ constitute a calibrated speaker THD or microphone sensitivity measurement.
 
 ## Hardware and reference documents
 
-- Pico 2 / RP2350; COM13 USB CDC.
+- RP2350 board; COM13 USB CDC.
 - Four IM72D128 microphones, GP6 clock and GP7–GP10 data.
 - Yoursee-MAX98357A, GP11 DIN / GP12 BCLK / GP13 LRCLK. The module
   photograph `max98357A.png` shows the advertised label: 9 dB gain, mono

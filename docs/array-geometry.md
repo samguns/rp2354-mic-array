@@ -6,7 +6,7 @@ Coordinate frame: look directly at the exposed sound-port underside, keeping the
 
 ## Channel map and acoustic-port centers
 
-| Channel | Mic | Net | GPIO | Pico header pin | Nominal X/Y, mm | Export-derived X/Y, mm |
+| Channel | Mic | Net | GPIO | CAD pin | Nominal X/Y, mm | Export-derived X/Y, mm |
 |---|---|---|---|---|---|---|
 | 1 | U1 | DATA1 | GP7 | 10 | (0, 25) | (-0.0001270, 25.0000059) |
 | 2 | U2 | DATA2 | GP8 | 11 | (-25, 0) | (-25.0001888, -0.0001168) |
@@ -23,11 +23,11 @@ The `.epru` export was verified byte-for-byte against the member in the supplied
 python tools/extract_geometry.py
 ```
 
-The PCB coordinates are stored in mils (1 mil = 0.0254 mm), despite the canvas display unit being mm. This is cross-checked against the Pico footprint 100-unit header pitch (2.54 mm), the 3 x 4 mm microphone body outline, and the nominal 80 x 74 mm board outline.
+The PCB coordinates are stored in mils (1 mil = 0.0254 mm), despite the canvas display unit being mm. This is cross-checked against the MCU footprint 100-unit pad pitch (2.54 mm), the 3 x 4 mm microphone body outline, and the nominal 80 x 74 mm board outline.
 
 For each mic, the acoustic center is footprint `POLY e3` on document layer 13, at local (-0.005, -31.89) mil. It coincides with `FILL e26`, the circular ground-ring clearance, and is distinct from the pin-one marking. This interpretation is consistent with the package/footprint drawings in [Infineon IM72D128 datasheet, figures 12 and 13](https://www.infineon.com/assets/row/public/documents/24/49/infineon-im72d128-datasheet-en.pdf). U1 uses a board-local footprint copy with the same port coordinates.
 
-All four microphones are on the top layer; no bottom-side mirror transform is applied. The CAD port calculation is `position + R(angle) * local_port`; then X is negated for the exposed-port frame. The transformed pin-1 DATA pad was independently checked against a routed endpoint on the corresponding DATA net for all four mics, verifying rotation sign. PCB PAD_NET records then link DATA1..4 to U5 header pins 10,11,12,14; the supplied Pico schematic symbol maps those pins to GP7,8,9,10. Firmware captures GPIO7..10 in that order.
+All four microphones are on the top layer; no bottom-side mirror transform is applied. The CAD port calculation is `position + R(angle) * local_port`; then X is negated for the exposed-port frame. The transformed pin-1 DATA pad was independently checked against a routed endpoint on the corresponding DATA net for all four mics, verifying rotation sign. PCB PAD_NET records then link DATA1..4 to U5 pins 10, 11, 12, and 14, which the schematic symbol maps to GP7, GP8, GP9, and GP10. Firmware captures GPIO7..10 in that order.
 
 | Mic | Component origin X/Y, mil | Rotation |
 |---|---|---|

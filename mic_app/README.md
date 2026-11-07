@@ -1,7 +1,7 @@
 # mic_app
 
 Windows desktop direction viewer and interactive validation workspace for the
-Pico 2 four-microphone array. Built with Tauri 2, Vue 3, TypeScript and a Rust
+RP2354A four-microphone array. Built with Tauri 2, Vue 3, TypeScript and a Rust
 serial backend. No Python runtime is required by the desktop app.
 
 ## Run
