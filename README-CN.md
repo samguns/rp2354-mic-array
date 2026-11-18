@@ -6,6 +6,8 @@ English: [README.md](README.md)
 
 ## USB
 
+USB 端点缓冲区分配修复及 Linux 播放验证：[原因与验证记录](docs/usb-buffer-allocation-fix.md)。
+
 一个全速复合设备，VID:PID `2fe3:0007`（旧版仅麦克风固件为 `2fe3:0006`），产品名 `Pico 2 Mic Array UAC2`，制造商 `Pico Array Prototype`，配置名 `Audio, shell and telemetry`：
 
 | 功能 | USB 接口 | Windows 名称 |

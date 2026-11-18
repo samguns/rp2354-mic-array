@@ -11,6 +11,8 @@ flash, pin wiring, and USB functions. See [RP2354A board](docs/rp2354a-board.md)
 
 ## USB
 
+USB endpoint buffer allocation fix and Linux playback validation: [details](docs/usb-buffer-allocation-fix.md).
+
 One full-speed composite device, VID:PID `2fe3:0007` (legacy microphone-only firmware: `2fe3:0006`), product
 `Pico 2 Mic Array UAC2`, manufacturer `Pico Array Prototype`, configuration
 `Audio, shell and telemetry`:

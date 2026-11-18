@@ -1,5 +1,5 @@
 diff --git a/drivers/usb/udc/udc_rpi_pico.c b/drivers/usb/udc/udc_rpi_pico.c
-index 276a75d9528..6025b306fb3 100644
+index 276a75d9528..c56920dcbb2 100644
 --- a/drivers/usb/udc/udc_rpi_pico.c
 +++ b/drivers/usb/udc/udc_rpi_pico.c
 @@ -448,7 +448,8 @@ static ALWAYS_INLINE void rpi_pico_thread_handler(void *const arg)
@@ -21,3 +21,21 @@ index 276a75d9528..6025b306fb3 100644
  		udc_submit_sof_event(dev);
  	}
  
+@@ -776,7 +779,7 @@ static int udc_rpi_pico_ep_enable(const struct device *dev,
+ 				   (type << EP_CTRL_BUFFER_TYPE_LSB);
+ 		size_t blocks = DIV_ROUND_UP(cfg->mps, 64U);
+ 
+-		err = sys_mem_blocks_alloc(config->mem_block, blocks, &ep_data->buf);
++		err = sys_mem_blocks_alloc_contiguous(config->mem_block, blocks, &ep_data->buf);
+ 		if (err != 0) {
+ 			LOG_ERR("Failed to allocate %zu memory blocks for ep 0x%02x",
+ 				cfg->addr, blocks);
+@@ -807,7 +810,7 @@ static int udc_rpi_pico_ep_disable(const struct device *dev,
+ 		size_t blocks = DIV_ROUND_UP(cfg->mps, 64U);
+ 
+ 		write_ep_ctrl_reg(dev, cfg->addr, 0UL);
+-		err = sys_mem_blocks_free(config->mem_block, blocks, &ep_data->buf);
++		err = sys_mem_blocks_free_contiguous(config->mem_block, ep_data->buf, blocks);
+ 		if (err != 0) {
+ 			LOG_ERR("Failed to free memory blocks");
+ 			return err;
