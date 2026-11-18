@@ -51,6 +51,7 @@ static int cmd_boot(const struct shell *sh, size_t argc, char **argv)
 	/* Allow the USB shell message to drain before disconnecting. */
 	k_msleep(100);
 	/* No activity GPIO; enable both mass-storage and picoboot interfaces. */
+	(void)irq_lock(); /* Do not let another thread postpone the ROM watchdog reboot. */
 	reset_usb_boot(0, 0);
 }
 
@@ -459,6 +460,7 @@ __ramfunc __attribute__((optimize("O3"))) int main(void)
 	uint32_t expected = 0;
 	uint32_t warmup = 48; /* >100 ms, including microphone and CIC settling. */
 	while (true) {
+		usb_audio_service();
 		struct capture_block *block;
 		if (capture_read(&block, K_MSEC(100)) != 0) {
 			if (atomic_get(&capture_stats.faults)) {

@@ -11,7 +11,8 @@ flash, pin wiring, and USB functions. See [RP2354A board](docs/rp2354a-board.md)
 
 ## USB
 
-USB endpoint buffer allocation fix and Linux playback validation: [details](docs/usb-buffer-allocation-fix.md).
+USB fixes and validation: [endpoint allocation](docs/usb-buffer-allocation-fix.md) and
+[Windows playback shutdown](docs/usb-shutdown-fix.md).
 
 One full-speed composite device, VID:PID `2fe3:0007` (legacy microphone-only firmware: `2fe3:0006`), product
 `Pico 2 Mic Array UAC2`, manufacturer `Pico Array Prototype`, configuration
@@ -41,9 +42,9 @@ records with a generation count and CRC32. A normal UF2 update leaves that
 partition in place; erasing the whole flash clears it. See
 [persistent audio settings](docs/persistent-audio-settings.md).
 
-The linked image in `build/zephyr/zephyr_final.map` uses 147,228 bytes of the
-2,088,960-byte firmware partition and 513,760 of 532,480 bytes of RAM, leaving
-18,720 bytes. `CONFIG_DMA=n` because this application owns the DMA controller.
+The linked image in `build/zephyr/zephyr_final.map` uses 147,568 bytes of the
+2,088,960-byte firmware partition and 513,784 of 532,480 bytes of RAM, leaving
+18,696 bytes. `CONFIG_DMA=n` because this application owns the DMA controller.
 `CONFIG_ASSERT=n` and `CONFIG_SPIN_VALIDATE=n` keep debug kernel checks out of
 the realtime build. Capture sequence checks, USB health counters, configuration
 bounds, and the settings CRC stay on.

@@ -1,5 +1,9 @@
 # UAC2 microphone and speaker
 
+For the playback-stop timing correction and repeated Windows duplex validation,
+see [USB shutdown fix](usb-shutdown-fix.md). Earlier allocator verification
+and the original failure are recorded in [USB buffer allocation fix](usb-buffer-allocation-fix.md).
+
 The composite USB device exposes four-channel 48 kHz PCM16 capture and stereo
 48 kHz PCM16 playback, plus independent CDC shell and MIC/2 telemetry ports.
 Select Pico 2 Mic Array UAC2 as the Windows output device to play PC audio.
@@ -67,3 +71,10 @@ Diagnostic pattern and temporary DSP settings were cleared by restarting
 with the same UF2; saved audio settings were preserved. Shell is COM8 and
 telemetry COM15 on this PC. The desktop application source accepts PID 0007;
 its packaged executable has not been rebuilt in this change.
+
+
+If an active microphone stream stops completing USB packets for over one
+second, firmware forces a 100-ms USB disconnect/reconnect. `uacstats` reports
+`usb_recoveries`; a nonzero count means the host recording was interrupted and
+must be reopened. This recovery keeps microphone acquisition running; invoking it fails the
+duplex regression test. See the [shutdown timing fix](usb-shutdown-fix.md).

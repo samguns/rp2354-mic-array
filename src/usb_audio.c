@@ -6,6 +6,13 @@
 #include <zephyr/shell/shell.h>
 #include <string.h>
 
+#include <hardware/structs/usb.h>
+#include <hardware/regs/usb.h>
+#include <hardware/address_mapped.h>
+
+static atomic_t completed_packets;
+static atomic_t usb_recoveries;
+
 #define RING_FRAMES 2048
 /* Keep a 32-ms producer reserve: CDC/control bursts can postpone capture
  * delivery beyond the former 16-ms reserve. No additional ring RAM is used. */
@@ -79,9 +86,46 @@ static void terminal_update(const struct device *dev, uint8_t terminal,
 	k_spin_unlock(&lock, key);
 }
 
+/* Called by the capture loop. Never sleep here: acquisition must keep running.
+ * A missing IN completion for one second during active capture indicates a
+ * stalled USB path. A 100-ms disconnect makes Windows reset the USB bus.
+ * The host must reopen its audio stream after this exceptional recovery.
+ */
+void usb_audio_service(void)
+{
+	static uint32_t last_completed, last_progress_ms, reconnect_at;
+	static bool reconnecting;
+	uint32_t now = k_uptime_get_32();
+
+	if (reconnecting) {
+		if ((int32_t)(now - reconnect_at) >= 0) {
+			hw_set_bits(&usb_hw->sie_ctrl, USB_SIE_CTRL_PULLUP_EN_BITS);
+			reconnecting = false;
+			last_progress_ms = now;
+		}
+		return;
+	}
+
+	k_spinlock_key_t key = k_spin_lock(&lock);
+	bool active = state.enabled;
+	k_spin_unlock(&lock, key);
+	uint32_t completed = (uint32_t)atomic_get(&completed_packets);
+
+	if (!active || completed != last_completed) {
+		last_completed = completed;
+		last_progress_ms = now;
+	} else if (now - last_progress_ms > 1000) {
+		hw_clear_bits(&usb_hw->sie_ctrl, USB_SIE_CTRL_PULLUP_EN_BITS);
+		reconnect_at = now + 100;
+		reconnecting = true;
+		atomic_inc(&usb_recoveries);
+	}
+}
+
 static void release_packet(const struct device *dev, uint8_t terminal, void *buf, void *user)
 {
 	ARG_UNUSED(dev); ARG_UNUSED(terminal); ARG_UNUSED(user);
+	atomic_inc(&completed_packets);
 	k_mem_slab_free(&audio_packets, buf);
 }
 
@@ -184,12 +228,12 @@ static int stats(const struct shell *sh, size_t argc, char **argv)
 	k_spinlock_key_t key = k_spin_lock(&lock);
 	__typeof__(state) snapshot = state;
 	k_spin_unlock(&lock, key);
-	shell_print(sh, "UAC enabled=%u primed=%u fill=%u starts=%u stops=%u packets=%u in=%u out=%u short=%u long=%u silence=%u underruns=%u overruns=%u gaps=%u send_errors=%u pool_errors=%u min_fill=%u max_fill=%u busy_startup=%u busy_active=%u",
+	shell_print(sh, "UAC enabled=%u primed=%u fill=%u starts=%u stops=%u packets=%u in=%u out=%u short=%u long=%u silence=%u underruns=%u overruns=%u gaps=%u send_errors=%u pool_errors=%u min_fill=%u max_fill=%u busy_startup=%u busy_active=%u usb_recoveries=%u",
 		snapshot.enabled, snapshot.primed, snapshot.fill, snapshot.starts, snapshot.stops,
 		snapshot.packets, snapshot.in_frames, snapshot.out_frames, snapshot.short_packets,
 		snapshot.long_packets, snapshot.startup_silence, snapshot.underruns, snapshot.overruns,
 		snapshot.gaps, snapshot.send_errors, snapshot.pool_errors, snapshot.min_fill, snapshot.max_fill,
-		snapshot.busy_startup, snapshot.busy_active);
+		snapshot.busy_startup, snapshot.busy_active, (unsigned)atomic_get(&usb_recoveries));
 	return 0;
 }
 SHELL_CMD_REGISTER(uacstats, NULL, "USB audio health (cumulative since reboot)", stats);

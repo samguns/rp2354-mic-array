@@ -21,7 +21,7 @@ COM 口由电脑分配。`mic_app` 根据 VID、PID 和接口选择遥测口，�
 
 没有已保存的音频记录时，USB 输出就是四路麦克风。波束成形、降噪和方向估计都关闭。已保存的记录会在采集开始前恢复降噪模式、哼声滤波、输入通道、波束模式、方位角、假定仰角，以及学到的 129 个频点噪声谱。方向估计不在这份记录里，启用之前保持关闭。保存方式是 `mic_app` 的 Save & restart，或 MIC/2 命令 `SETTINGS_SAVE`，并且只在 UAC 空闲时执行。Flash 末尾 8 KiB 放两条交替的 4 KiB 记录，带世代号和 CRC32。普通 UF2 更新会留下这个分区；整片擦除会清掉它。参见 [持久化音频设置](docs/persistent-audio-settings.md)。
 
-`build/zephyr/zephyr_final.map` 中的镜像占用固件分区 2,088,960 字节里的 147,228 字节，以及 532,480 字节 RAM 里的 513,760 字节，剩余 18,720 字节。`CONFIG_DMA=n`，因为本应用独占 DMA 控制器。`CONFIG_ASSERT=n` 和 `CONFIG_SPIN_VALIDATE=n` 使调试用的内核检查不进入实时构建。采集序号检查、USB 健康计数、配置范围检查和设置区 CRC 保持开启。
+`build/zephyr/zephyr_final.map` 中的镜像占用固件分区 2,088,960 字节里的 147,568 字节，以及 532,480 字节 RAM 里的 513,784 字节，剩余 18,696 字节。`CONFIG_DMA=n`，因为本应用独占 DMA 控制器。`CONFIG_ASSERT=n` 和 `CONFIG_SPIN_VALIDATE=n` 使调试用的内核检查不进入实时构建。采集序号检查、USB 健康计数、配置范围检查和设置区 CRC 保持开启。
 
 在 Windows 输出设备中选择 `Pico 2 Mic Array UAC2`，即可通过 MAX98357A 播放到已连接的单只扬声器。USB 接收左右声道，功放模块的硬件选择决定输出左声道、右声道或混合单声道。播放与四通道录音可同时进行；尚未实现声学回声消除。更改降噪模式或保存设置前，须关闭录音和播放。USB 身份改变后 COM 口可能变化，旧版桌面应用可手动选择新的遥测口。参见 [UAC2 录音与播放](docs/uac2-duplex.md)。
 

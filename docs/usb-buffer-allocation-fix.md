@@ -1,5 +1,8 @@
 # RP2350 USB endpoint buffer allocation fix
 
+Current shutdown timing correction and validation: [USB shutdown fix](usb-shutdown-fix.md).
+The investigation notes below retain the earlier failures and recovery results.
+
 ## Cause
 
 The Zephyr revision pinned by `setup.sh`
@@ -45,3 +48,22 @@ Windows and phone playback had worked before the fix. Their USB request
 sequences were not captured, so the exact reason those hosts did not
 trigger the same failure is not established. No Linux permission or
 host-driver changes were needed for the successful post-fix playback.
+
+## Windows hardware verification, 2026-11-18
+
+The merged allocator correction was built and flashed on board
+`E66580A7C72D6127`. The compiled driver used the contiguous allocation/free
+APIs. All four microphones captured the speaker's 1 kHz tone, and diagnostic
+patterns verified channel order and sample sequence.
+
+The allocator correction alone did not resolve repeated Windows duplex
+shutdown: capture could stall when playback stopped, while microphone
+acquisition continued. The combined patch now also corrects USB DPRAM handoff
+timing for the board's 150 MHz system clock. The uninstrumented firmware has
+passed 40 separate duplex cycles, 30 playback stops during continuous raw
+capture, and 50 playback stops during continuous capture with full DSP load.
+All had zero audio errors, host discontinuities, or USB recoveries.
+
+See [USB shutdown timing fix](usb-shutdown-fix.md) for the hardware timing
+requirement, complete verification results, reproducible host test, BOOTSEL
+correction, and the exceptional USB recovery counter.
